@@ -6,7 +6,7 @@ from webscraper import webscraper
 
 @pytest.mark.integration
 def test_non_existent_endpoint():
-    with pytest.raises(ValueError) as value_error:
+    with pytest.raises(ValueError):
         webscraper.scrape_data("https://www.opendatani.gov.uk/dataset/non-existent-endpoint")
 
 @pytest.mark.integration
