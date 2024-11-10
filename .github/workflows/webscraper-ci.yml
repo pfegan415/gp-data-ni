@@ -1,11 +1,11 @@
-name: Webscraper Tests
+name: Test Webscraper
 
 on: 
   push:
     branches:
       - '*'
     paths:
-      - 'apps/gp-data-ni-webscraper/**'
+      - 'apps/webscraper/**'
 
 jobs:
   test:
@@ -27,12 +27,12 @@ jobs:
 
       - name: Install Dependencies
         run: poetry install
-        working-directory: apps/gp-data-ni-webscraper
+        working-directory: apps/webscraper
 
       - name: Unit tests
         run: poetry run pytest -m "unit"
-        working-directory: apps/gp-data-ni-webscraper
+        working-directory: apps/webscraper
 
       - name: Integration tests
         run: poetry run pytest -m "integration"
-        working-directory: apps/gp-data-ni-webscraper
+        working-directory: apps/webscraper
