@@ -3,7 +3,7 @@ name: Webscraper Tests
 on: 
   push:
     branches:
-      - main
+      - '*'
     paths:
       - 'apps/gp-data-ni-webscraper/**'
 
