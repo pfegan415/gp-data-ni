@@ -1,0 +1,45 @@
+name: Publish Webscraper Package
+
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   types:
+  #     - closed
+  #   branches:
+  #     - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: '1.8.4'
+
+      - name: Install Dependencies
+        run: poetry install
+        working-directory: apps/webscraper
+
+      - name: Build wheel
+        run: poetry build --format wheel
+        working-directory: apps/webscraper
+
+      - name: Set Gemfury as repository
+        run: poetry config repositories.fury https://pypi.fury.io/pfegan415/
+        working-directory: apps/webscraper
+
+      - name: Authenticate to Gemfury
+        run: poetry config http-basic.fury ${{ secrets.GEMFURY_AUTH_TOKEN }} NOPASS
+        working-directory: apps/webscraper
+
+      - name: Publish wheel to Gemfury
+        run: poetry publish --repository fury --no-interaction
+        working-directory: apps/webscraper
